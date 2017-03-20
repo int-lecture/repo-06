@@ -24,3 +24,4 @@ Ich als Entwickler möchte:
 1.	Automatische Benachrichtigung aller Nutzer bei geplanten Wartungen um die Benutzerfreundlichkeit hoch zu halten
 2.	Speicherung des Passwortes als Hashwert auf dem Server um die Nutzersicherheit zu erhöhen
 3.	Responsive Design bei mobiler Nutzung
+4.  möchte eine Datenbank hinter der Webanwendung haben um die Daten der Benutzer zu sammeln und sie eventuell an Advertisers zu verkaufen
