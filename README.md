@@ -18,6 +18,8 @@ Ich als Benutzer möchte :
   14. Responsive Design bei mobiler Nutzung 
   15. Einen Chat mit dem Suchknopf finden können
   16.  ich Chats Prioritäten geben können um sie ganz oben der Chat-Ansicht zu fixieren und Ordnen 	zu können
+  
+  
 *** - Prioritätsgrad
 
 Ich als Entwickler möchte:
