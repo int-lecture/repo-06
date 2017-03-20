@@ -17,6 +17,7 @@ Ich als Benutzer möchte :
 13.	Zufälligen Benutzer auswählen
 14.	Responsive Design bei mobiler Nutzung
 15.	Einen Chat mit dem Suchknopf finden können
+
 *** - Prioritätsgrad
 
 Ich als Entwickler möchte:
