@@ -10,7 +10,7 @@ Ich als Benutzer möchte :
   6. Videoanrufe machen können um nicht viel schreiben zu müssen.*
   7. Fotos und Files verschicken können, da ein Bild mehr als tausend Worte sagt.*
   8. den Messenger als Webanwendung benutzen können um ihn nicht extra installieren zu müssen.*
-  9. Das ich mich automatisch einlogge, um den Einlog vorgang zu beschleunigen.*
+  9. Das ich mich automatisch einlogge, um das Einloggen zu beschleunigen.*
   10. über Benachrichtigungen informiert werde die ich geschickt bekomme wenn ich den Messenger nicht geöffnet habe um           zeitnah Antworten zu können.*
   11.  Sprachnachrichten verschicken können um auf eine Nachricht antworten zu können auch wenn ich grade nicht die   Möglichkeit habe zu tippen. *
   12. schnell und unkompliziert ein Profil anlegen können um die Bedienbarkeit zu vereinfachen.**
