@@ -4,6 +4,7 @@ Repository for Team 06
 Ich als Benutzer möchte :
   1. Übersichtliches Design um schnell einen Chat erstellen und finden zu können***
   2. mich entweder mit E-Mail oder mit einem Benutzernamen registriere können um meine Persönlichendaten zu schützen***
+  
   3. einen Gruppenchat erstellen können um mit mehreren Personen gleichzeitig zu schreiben.**
   4. Den Chatverlauf speichern können um ihn zu Archivieren für persönliche Zwecke**
   5. Das die Nachrichten verschlüsselt werden um das mitlesen von dritten zu verhindern
