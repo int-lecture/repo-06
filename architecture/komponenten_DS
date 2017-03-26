@@ -1,0 +1,21 @@
+Beschreibung der verschiedenen Komponenten:
+
+  1. Load-Balancer: Verteilt die Anfragen auf freie bzw. weniger belastete Web-Server.
+  2. Web-Server: Dient zur Anzeige der eigentlichen Webseite und leitet je nach Request die Anfragen an die entsprechenden 
+  Server weiter. Kommen viele Webserver zum Einsatz, so kann sich einer speziell um die Darstellung der statischen
+  Inhalte kümmern und die anderen um die direktion der Requests.
+  3. Nachrichtenmanager: Ist für das Senden und Empfangen der Nachrichten verantwortlich. Dazu greift er auf die Kontakt- &
+  Sperrliste eines Users zu um zu Überprüfen ob Einschränkungen vorliegen und verweigert bei Bedarf die Weitergabe der 
+  Nachricht. Außerdem wird er zur Speicherung von Medien und Chat-Verläufen verwendet.
+  4. Login(-Server): Kümmert sich nur um die Authentifizierung der Benutzer. Er greift auf die User-Datenbank um Identität zu 
+  bestätigen. Hat nur lesenden Zugriff um möglichst Performant zu sein. Diese Komponente kann man auch entsprechend 
+  skalieren falls dies nötig sein sollte.
+  5. Administration(s-Server): Der Server ist für alles zuständig was mit den jeweiligen Accounts zu tun hat. Dies beinhaltet
+  das erstellen, löschen und verwalten der Accounts. Zudem werden Einstellungen der User gespeichert.
+  
+  
+Beschreibung/Struktur der Datenbank:
+
+Es existiert eine Datenbank für alles, der User-Datenbank. Die Datensätze um die sich der Nachrichtenmanager kümmert sind allerdings auf einen anderen Server gespeichert. In der User-Datenbank findet man zu den jeweiligen Datensätzen einen 
+entsprechenden Pfad um auf diese zugreifen zu können. Zudem wird diese Datenbank synchron und redundant Gesichert um bei 
+einem Ausfall einer Datenbank immer noch auf die Daten zugreifen zu können.
