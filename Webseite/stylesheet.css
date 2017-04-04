@@ -1,5 +1,5 @@
  body {
-     margin: 0;
+     margin:  0;
  }
 
 ul {
@@ -21,7 +21,7 @@ li a {
 }
 
 li a.active {
-    background-color: lightgray;
+    background-color: gray;
     color: lightyellow;
 }
 
@@ -47,7 +47,7 @@ header {
 
 #farbe1 {
     color: lightyellow;
-    background-color: lightblue;
+    background-color: #ad34e6;
 }
 
 #farbe2{
