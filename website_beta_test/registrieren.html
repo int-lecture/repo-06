@@ -12,8 +12,8 @@
         <li><a href="firma.html">Unsere Firma</a></li>
         <li><a href="produkt.html">Unsere Produkte</a></li>
         <li><a href="impressum.html">Impressum</a></li>
-
         <li><a class="active" href="registrieren.html">Registrieren</a></li>
+      	<li><a href="messenger.php">Messenger</a></li>
     </ul>
 <div class="content">
     <header>
@@ -22,7 +22,7 @@
 
     <h4>Registrien Sie sich jetzt für unsere Newsletter um keinen Spass mehr zu Verpassen !</h4>
     <br>
-    <form>
+    <form action= "action.php" method= "POST">
         <label type="text">Vorname</label><br>
         <input type="text" id="vName" name="Vorname">
         <br>
@@ -30,10 +30,11 @@
         <input type="text" id="nName" name="Nachname"><br>
         <label for="eMail">Email-Adresse</label><br>
         <input type="email" id="eMail" name="Email"><br>
-        <input type="checkbox"style="width: 1em;">
-        Hiermit erkläre ich mich Einverstanden die von<br> mir gegebenen Daten
-        laut<a href="#">AGB</a> zu Benutzen.<br>
-        <input type="button" name="send" value="Absenden">
+       <p>Ich akzeptiere die AGBs<input type="checkbox" name="check" /></p>
+      <p>Wenn Sie auf "Senden" klicken, stimmen Sie zu das diese Daten<br>
+         auf irgend einem fremdem Rechner gespeichert werden.</p>
+		<p><button type="submit" formmethod="post" formaction="registrierung.php">Senden</button></p>
+      
     </form>
 </div>
 </body>
