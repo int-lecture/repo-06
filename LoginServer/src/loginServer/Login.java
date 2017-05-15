@@ -23,7 +23,7 @@ import org.apache.commons.codec.binary.Base64;
 @Path("/")
 public class Login {
 
-	public static final String ISO8601 = "yyyy-MM-dd'T'HH:mm:ssZ";
+	public static final String ISO8601 = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
 	private static Map<String, String> passwordList = new HashMap<>();
 	private static Map<String, String> tokenList = new HashMap<>();
@@ -58,7 +58,8 @@ public class Login {
 					JSONObject tokenObject = new JSONObject();
 					//SimpleDateFormat statt Date();
 					//Token mit JWT erstellen oder über eine Liste von vorgefertigten Tokens.
-					tokenObject.put("token", createToken(pseudonym,"testtoken")).put("expire-date", new Date(new Date().getTime()+5*60*1000));
+					SimpleDateFormat sdf = new SimpleDateFormat(ISO8601);
+					tokenObject.put("token", createToken(pseudonym,"testtoken")).put("expire-date", sdf.format(new Date(new Date().getTime()+5*60*1000)));
 					return Response.ok().entity(tokenObject.toString()).build();
 				}else{
 					return Response.status(Response.Status.UNAUTHORIZED).build();
@@ -85,7 +86,8 @@ public class Login {
 			if(tokenList.get(jsonObject.optString("pseudonym")).equals(jsonObject.optString("token"))){
 				JSONObject successJsonObject = new JSONObject();
 				//SimpleDateFormat formatierung statt Date();
-				successJsonObject.put("success", "true").put("expire-Date", new Date());
+				SimpleDateFormat sdf = new SimpleDateFormat(ISO8601);
+				successJsonObject.put("success", "true").put("expire-Date", sdf.format(new Date(new Date().getTime()+5*60*1000)));
 				return Response.ok().entity(successJsonObject.toString()).build();
 			}else{
 				return Response.status(Response.Status.UNAUTHORIZED).build();
