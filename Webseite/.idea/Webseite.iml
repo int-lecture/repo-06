@@ -10,5 +10,6 @@
     <orderEntry type="library" name="jquery" level="application" />
     <orderEntry type="library" name="angular" level="application" />
     <orderEntry type="library" name="angular-route" level="application" />
+    <orderEntry type="library" name="45e03a14ce" level="application" />
   </component>
 </module>
