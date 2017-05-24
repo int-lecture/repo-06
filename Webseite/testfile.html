@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -23,18 +23,16 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li><a href="#/">Home</a></li>
+                <li><a href="/index.html">Home</a></li>
                 <li><a href="#firma">Unsere Firma</a></li>
-                <li><a href="#produkt">Unser Produkt</a></li>
-                <li><a href="#impressum">Impressum</a></li>
-                <li><a href="#registrieren">Newsletter</a></li>
-                <li><a href="messenger.html">Messenger</a></li>
+                <li><a href="/produkt.html">Unser Produkt</a></li>
+                <li><a href="/impressum.html">Impressum</a></li>
+                <li><a href="/registrieren.html">Newsletter</a></li>
+                <li><a href="/messenger.php">Messenger</a></li>
             </ul>
         </div>
     </div>
 </nav>
-
-
 
 <div ng-view></div>
 
@@ -43,8 +41,8 @@
     var app = angular.module("myApp", ["ngRoute"]);
     app.config(function($routeProvider) {
         $routeProvider
-                .when("/", {
-                    template : "<div class='container'><h1>Hallo und Herzliche Willkommen bei der Webseite von SecureMessenger</h1></div>"
+                .when("/index", {
+                    templateUrl : "index.html"
                 })
                 .when("/firma", {
                     templateUrl : "firma.html"
@@ -56,10 +54,10 @@
                     templateUrl : "impressum.html"
                 })
                 .when("/registrieren", {
-                    templateUrl : "registrieren.html"
+                    templateUrl : "registrierung.php"
                 })
                 .when("/messenger", {
-                    templateUrl : "messenger.html"
+                    templateUrl : "messenger.php"
                 });
     });
 </script>
