@@ -16,9 +16,12 @@
             AuthenticationService.ClearCredentials();
         })();
 
+
+
+        //Authentification muss noch eingearbeitet werden
         function login() {
             vm.dataLoading = true;
-            AuthenticationService.Login(vm.username, vm.password, function (response) {
+            AuthenticationService.Login(vm.name, vm.pesudonym, vm.password, function (response) {
                 if (response.success) {
                     AuthenticationService.SetCredentials(vm.username, vm.password);
                     $location.path('/');
