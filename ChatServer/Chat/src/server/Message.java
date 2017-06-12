@@ -32,12 +32,13 @@ public class Message {
 	
 	
 	public static Message transferJSONinMessage(String jsonObject) throws ParseException, JSONException{
+		Date date=null;
 		try {
 			JSONObject obj = new JSONObject(jsonObject);
-			Date date = null;
 			if (obj.has("date")) {
+				String datum = obj.getString("date");
 				SimpleDateFormat sdf = new SimpleDateFormat(RESTfulWebServices.ISO8601);
-				date = sdf.parse(obj.getString("date"));
+				date = sdf.parse(datum);
 			}
 
 			return new Message(obj.optString("from"), obj.optString("to"), date, obj.optString("text"),
@@ -51,7 +52,10 @@ public class Message {
 	
 	public JSONObject transferInJSONObject() throws JSONException{
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("date", new SimpleDateFormat(RESTfulWebServices.ISO8601).format(date))
+		jsonObject.put("from", this.from)
+					.put("to", this.to)
+					.put("date", new SimpleDateFormat(RESTfulWebServices.ISO8601).format(date))
+					.put("text", this.text)
 					.put("sequence", sequenceNr);
 		
 		return jsonObject;

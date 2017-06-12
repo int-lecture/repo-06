@@ -17,7 +17,7 @@ public class UserID {
 	/**
 	 * <code>List</code> zum Speichern von Nachrichten
 	 */
-	private List<Message> messageList = new ArrayList<Message>();
+	public List<Message> messageList = new ArrayList<Message>();
 	
 	/**
 	 * Konstruktor der UserID
@@ -50,28 +50,22 @@ public class UserID {
 	 */
 	public List<Message> revieveMessage(int sequenceNr){
 		List<Message> recievableMessages = new ArrayList<>();
-		for(Message message : messageList){
-			if (sequenceNr == 0 || message.sequenceNr > sequenceNr) {
+		for(Message message: messageList){
+			if(sequenceNr == 0 || message.sequenceNr >= sequenceNr){
 				recievableMessages.add(message);
+				
 			}
 		}
-		
-		while(!this.messageList.isEmpty()){
-			Message message = this.messageList.get(messageList.size()-1);
-			if(message.sequenceNr <= sequenceNr){
-				this.messageList.remove(messageList.size()-1);
-			}
-			else{
-				break;
+		while(!messageList.isEmpty()){
+			int i=1;
+			Message message = this.messageList.get(messageList.size()-i);
+			if(message.sequenceNr < sequenceNr){
+				messageList.remove(messageList.size()-i);
+			}else{
+				i++;
 			}
 		}
-		return recievableMessages;
-			
-	}
-	
-	
-	
-	
-	
+		return recievableMessages;	
+	}	
 	
 }

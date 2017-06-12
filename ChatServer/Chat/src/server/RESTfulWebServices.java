@@ -22,25 +22,26 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-@Path("")
+@Path("/")
 public class RESTfulWebServices {
+
+	// Endlosschleife bei jeder Nachricht
 	/**
 	 * Datumsformatierung
 	 */
-	public static final String ISO8601 = "yyyy-MM-dd'T'HH:mm:ss";
+	public static final String ISO8601 = "yyyy-MM-dd'T'HH:mm:ssZ";
 
-	
 	/**
 	 * HashMap zur Speicherung der Usermessages
 	 */
 	private static Map<String, UserID> userMessages = new HashMap<>();
 
-	
 	/**
 	 * Empfängt Nachrichten
 	 * 
-	 * @param jsonMessage Übergebene Nachricht als String
-	 * @return	Response ob alles oder garnichts geklappt hat
+	 * @param jsonMessage
+	 *            Übergebene Nachricht als String
+	 * @return Response ob alles oder garnichts geklappt hat
 	 * @throws JSONException
 	 */
 	@Path("/send")
@@ -49,17 +50,18 @@ public class RESTfulWebServices {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response send(String jsonMessage) throws JSONException {
 		try {
+			UserID user;
 			Message message = Message.transferJSONinMessage(jsonMessage);
 			if (message.to != null && message.from != null && message.date != null && message.text != null) {
-				UserID user;
 				if (!userMessages.containsKey(message.to)) {
 					user = new UserID(message.to);
 					userMessages.put(message.to, user);
+					user.sendMessage(message);
 				} else {
 					user = userMessages.get(message.to);
+					user.sendMessage(message);
 				}
 
-				message = user.sendMessage(message);
 				try {
 					return Response.ok().entity(message.transferInJSONObject().toString()).build();
 				} catch (JSONException e) {
@@ -67,7 +69,6 @@ public class RESTfulWebServices {
 					return Response.serverError().build();
 				}
 			}
-
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -75,22 +76,23 @@ public class RESTfulWebServices {
 		return Response.status(Response.Status.BAD_REQUEST).entity("Message was not correctly formatted").build();
 	}
 
-	
 	/**
-	 * Methode die einem alle Nachrichten ab einer bestimmten Sequenznummer liefert.
-	 * Dabei wird geprüft ob der Nutzername bereits in der HashMap enthalten ist.
-	 * Ist dies der Fall, dann wird ein JsonArray erstellt, in dem alle neuen Nachrichten
-	 * gespeichert werden nachdem sie in ein JsonObject umgewandelt worden sind.
-	 *  
-	 * @param userID Name des Users
-	 * @param sequenceNr	Sequenznummer
+	 * Methode die einem alle Nachrichten ab einer bestimmten Sequenznummer
+	 * liefert. Dabei wird geprüft ob der Nutzername bereits in der HashMap
+	 * enthalten ist. Ist dies der Fall, dann wird ein JsonArray erstellt, in
+	 * dem alle neuen Nachrichten gespeichert werden nachdem sie in ein
+	 * JsonObject umgewandelt worden sind.
+	 * 
+	 * @param userID
+	 *            Name des Users
+	 * @param sequenceNr
+	 *            Sequenznummer
 	 * @return Response falls alles oder garnichts geklappt hat
 	 */
 	@GET
 	@Path("/messages/{user_id}/{sequence_number}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response recieveMessage(@PathParam("{user_id}") String userID,
-			@PathParam("{sequence_number}") int sequenceNr) {
+	public Response recieveMessage(@PathParam("user_id") String userID, @PathParam("sequence_number") int sequenceNr) {
 		if (userMessages.containsKey(userID)) {
 			JSONArray jsonMessageArray = new JSONArray();
 			UserID user = userMessages.get(userID);
@@ -101,36 +103,36 @@ public class RESTfulWebServices {
 				for (Message message : newMessages) {
 					try {
 						jsonMessageArray.put(message.transferInJSONObject());
-
 					} catch (JSONException e) {
 						return Response.serverError().build();
 					}
 
 				}
-				try{
-					return Response.ok().entity(jsonMessageArray).build();
-				}
-				catch(Exception e){
+				try {
+					return Response.ok().entity(jsonMessageArray.toString()).build();
+				} catch (Exception e) {
 					return Response.serverError().build();
 				}
 			}
 
-		}else{
+		} else {
 			return Response.status(Response.Status.BAD_REQUEST).entity("No User").build();
 		}
 	}
-	
+
 	/**
 	 * Methode die die Funktion <code>recieveMessage(userID, 0)</code> aufruft.
-	 * Die <code>0</code> gibt an, das ab der ersten Nachricht mit der Sequenznummer 0 alle Nachrichten
-	 * gespeichert werden sollen.
-	 * @param userID Übergebener User Name
+	 * Die <code>0</code> gibt an, das ab der ersten Nachricht mit der
+	 * Sequenznummer 0 alle Nachrichten gespeichert werden sollen.
+	 * 
+	 * @param userID
+	 *            Übergebener User Name
 	 * @return Response wenn bzw. wenn kein Fehler aufgetretten ist.
 	 */
 	@GET
 	@Path("/messages/{user_id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response revieveAllMessages(@PathParam("{user_id}") String userID) {
+	public Response revieveAllMessages(@PathParam("user_id") String userID) {
 		return recieveMessage(userID, 0);
 	}
 
