@@ -4,7 +4,7 @@ app.config(function ($routeProvider) {
     $routeProvider
 
         .when("/", {
-            template : "<div class='container'><h1>Hallo und Herzliche Willkommen bei der Webseite von SecureMessenger</h1></div>"
+            templateUrl : "views/home.html"
         })
         .when("/firma", {
             templateUrl : "views/firma.html"
@@ -35,6 +35,5 @@ app.config(function ($routeProvider) {
         */
         .otherwise({ redirectTo: '/' });
 });
-//controller raus ins partial. view stuff ins partial. controller in ordner referenzieren auf ng-controller
 
 
