@@ -15,11 +15,14 @@ app.config(function ($routeProvider) {
         .when("/impressum", {
             templateUrl : "views/impressum.html"
         })
+        .when("/newsletter", {
+            templateUrl : "views/newsletter.html"
+        })
+        .when("/login", {
+            templateUrl : "views/login.html"
+        })
         .when("/registrieren", {
             templateUrl : "views/registrieren.html"
-        })
-        .when("/messenger", {
-            templateUrl : "views/messenger.html"
         })
         /*
         .when('/messenger/home', {
