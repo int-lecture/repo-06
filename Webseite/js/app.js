@@ -22,7 +22,11 @@ app.config(function ($routeProvider) {
             templateUrl : "views/login.html"
         })
         .when("/registrieren", {
-            templateUrl : "views/registrieren.html"
+            templateUrl : "views/registrieren.html",
+            Controller :'LoginController'
+        })
+        .when("/login/registrieren",{
+            templateUrl :"views/registrieren.html"
         })
         /*
         .when('/messenger/home', {
