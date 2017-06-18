@@ -9,6 +9,8 @@ import com.sun.jersey.api.container.grizzly.GrizzlyWebContainerFactory;
 
 public class Server {
 
+	StorageProviderMongoDB db = new StorageProviderMongoDB();
+
 	public static void main(String[] args) throws IOException {
 
 		final String baseUri = "http://localhost:5000/";
