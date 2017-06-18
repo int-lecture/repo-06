@@ -15,9 +15,9 @@ public class Message {
 	Date date;
 	String text;
 	int sequenceNr;
-	
 
-	
+
+
 	public Message(String from, String to, Date date, String text, int sequenceNr){
 		this.from = from;
 		this.to = to;
@@ -25,12 +25,12 @@ public class Message {
 		this.text = text;
 		this.sequenceNr = sequenceNr;
 	}
-	
+
 	public Message(String from, String to, Date date, String text){
 		this(from, to, date, text, 0);
 	}
-	
-	
+
+
 	public static Message transferJSONinMessage(String jsonObject) throws ParseException, JSONException{
 		Date date=null;
 		try {
@@ -46,10 +46,10 @@ public class Message {
 		} catch (JSONException ex) {
 			throw new ParseException("String was not a valid JSON Message object.", -1);
 		}
-		
-			
+
+
 	}
-	
+
 	public JSONObject transferInJSONObject() throws JSONException{
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("from", this.from)
@@ -57,10 +57,10 @@ public class Message {
 					.put("date", new SimpleDateFormat(RESTfulWebServices.ISO8601).format(date))
 					.put("text", this.text)
 					.put("sequence", sequenceNr);
-		
+
 		return jsonObject;
 	}
-	
+
 	/**
      * @see java.lang.Object#toString()
      */
@@ -71,7 +71,7 @@ public class Message {
         return String.format("{ 'from': '%s', 'to': '%s', 'date': '%s', 'text': '%s'}".replace('\'',  '"'),
                 from, to, sdf.format(new Date()), text);
     }
-	
-	
+
+
 
 }

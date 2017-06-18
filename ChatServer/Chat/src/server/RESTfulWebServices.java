@@ -38,7 +38,7 @@ public class RESTfulWebServices {
 
 	/**
 	 * Empfängt Nachrichten
-	 * 
+	 *
 	 * @param jsonMessage
 	 *            Übergebene Nachricht als String
 	 * @return Response ob alles oder garnichts geklappt hat
@@ -82,7 +82,7 @@ public class RESTfulWebServices {
 	 * enthalten ist. Ist dies der Fall, dann wird ein JsonArray erstellt, in
 	 * dem alle neuen Nachrichten gespeichert werden nachdem sie in ein
 	 * JsonObject umgewandelt worden sind.
-	 * 
+	 *
 	 * @param userID
 	 *            Name des Users
 	 * @param sequenceNr
@@ -124,7 +124,7 @@ public class RESTfulWebServices {
 	 * Methode die die Funktion <code>recieveMessage(userID, 0)</code> aufruft.
 	 * Die <code>0</code> gibt an, das ab der ersten Nachricht mit der
 	 * Sequenznummer 0 alle Nachrichten gespeichert werden sollen.
-	 * 
+	 *
 	 * @param userID
 	 *            Übergebener User Name
 	 * @return Response wenn bzw. wenn kein Fehler aufgetretten ist.
