@@ -25,6 +25,10 @@ app.config(function ($routeProvider) {
             templateUrl : "views/registrieren.html",
             Controller :'LoginController'
         })
+        .when("/messenger", {
+            templateUrl: "views/messenger",
+            Controller: 'MessengerController'
+        })
         /*
         .when('/messenger/home', {
             templateUrl: 'home/home.view.html'
@@ -37,7 +41,7 @@ app.config(function ($routeProvider) {
             templateUrl: 'register/register.view.html'
         })
         */
-        .otherwise({ redirectTo: '/' });
+        .otherwise({ redirectTo: '/' })
 });
 
 
