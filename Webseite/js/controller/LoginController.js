@@ -20,7 +20,9 @@ app.controller('LoginController', function ($scope, $location, $http) {
             },
             data : dataObject
         }).then(function(){
-            window.alert("Success, dies dient nur zum Debuggen")}, function () {
+            window.alert("Success, dies dient nur zum Debuggen");
+            $location.path('messenger');
+        }, function () {
             window.alert("Leider ist ein Fehler aufgetreten!");
         })
     };
