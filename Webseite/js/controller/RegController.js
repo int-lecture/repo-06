@@ -1,26 +1,31 @@
 /**
  * Created by dennis on 18.06.17.
  */
-app.controller('RegController', function ($scope, $location) {
+app.controller('RegController', function ($scope, $location, $http) {
+
+    $scope.test = true;
     $scope.goTo = function () {
         $location.path('/login')
-    }
+    };
 
-    $scope.reg = function () {
-        var dataObject = {'pseudonym': $("#pseudonym"), 'password': $("#pseudonym"),
-        'name': $("#name")}
+    $scope.reg = function (store) {
 
-        $http.put('http://141.19.142.60/register',
-            JSON.stringify(dataObject),
-            {
-                headers:{
-                    'Content-Type': 'application/json; charset=utf-8'
-                }
-            }
-        ).then(function success() {
-            $location.path('/login');
-        }, function error(response) {
+        var dataObject = {
+                email: store.email,
+                pseudonym: store.pseudonym,
+                password: store.password
+        };
 
+        $http({
+            method: 'post',
+            url: 'http://141.19.142.60:5002/register',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data : dataObject
+        }).then(function(){
+            window.alert("Success")}, function () {
+            window.alert("Error")
         })
-    }
+    };
 });

@@ -19,11 +19,12 @@ app.config(function ($routeProvider) {
             templateUrl : "views/newsletter.html"
         })
         .when("/login", {
-            templateUrl : "views/login.html"
+            templateUrl : "views/login.html",
+            Controller: 'LoginController'
         })
         .when("/registrieren", {
             templateUrl : "views/registrieren.html",
-            Controller :'LoginController'
+            Controller :'RegController'
         })
         .when("/messenger", {
             templateUrl: "views/messenger",
