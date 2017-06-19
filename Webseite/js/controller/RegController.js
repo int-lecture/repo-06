@@ -18,7 +18,7 @@ app.controller('RegController', function ($scope, $location, $http) {
 
         $http({
             method: 'put',
-            url: 'http://141.19.142.57:5002/register',
+            url: 'http://141.19.142.60:5002/register',
             headers: {
                 'Content-Type': 'application/json; charset=utf-8'
             },

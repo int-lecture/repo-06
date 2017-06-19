@@ -1,7 +1,8 @@
 /**
  * Created by dennis on 14.06.17.
  */
-app.controller('LoginController', function ($scope, $location, $http) {
+app.controller('LoginController', function ($scope, $location, $http, $rootScope) {
+
     $scope.goTo = function () {
         $location.path('/registrieren')
     };
@@ -20,8 +21,8 @@ app.controller('LoginController', function ($scope, $location, $http) {
                 'Content-Type': 'application/json'
             },
             data : JSON.stringify(dataObject)
-        }).then(function(){
-            window.alert("Success, dies dient nur zum Debuggen");
+        }).then(function(response){
+            $rootScope.rspdata = response.data;
             $location.path('/messenger');
         }, function () {
             window.alert("Leider ist ein Fehler aufgetreten!");

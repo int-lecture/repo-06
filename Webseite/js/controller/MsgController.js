@@ -1,7 +1,8 @@
 /**
  * Created by dennis on 18.06.17.
  */
-app.controller('MsgController', function ($http, $scope){
+app.controller('MsgController', function ($http, $scope, $location){
+
     $scope.sendToServer = function () {
         var dataObject = {'from': $('from'), 'to': $('to'), 'date': new Date(), 'text': $('text')};
 

@@ -27,8 +27,8 @@ app.config(function ($routeProvider) {
             Controller :'RegController'
         })
         .when("/messenger", {
-            templateUrl: "views/messenger",
-            Controller: 'MessengerController'
+            templateUrl: "views/messenger.html",
+            Controller: 'MsgController'
         })
         /*
         .when('/messenger/home', {
