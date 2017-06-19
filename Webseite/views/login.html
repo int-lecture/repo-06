@@ -1,16 +1,20 @@
 <div class="container" ng-controller="LoginController">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-        <form action="">
+        <form>
             <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+                <label>Email:</label>
+                <input type="email" class="form-control" ng-model="store.user" placeholder="Enter email">
             </div>
             <div class="form-group">
-                <label for="pwd">Password:</label>
-                <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
+                <label>Pseudonym</label>
+                <input type="text" class="form-control" ng-model="store.pseudonym" placeholder="Enter password">
             </div>
-            <button type="submit" class="btn btn-default">Einloggen</button>
+            <div class="form-group">
+                <label>Password:</label>
+                <input type="password" class="form-control" ng-model="store.password" placeholder="Enter password">
+            </div>
+            <button type="submit" ng-click="login(store)" class="btn btn-default">Einloggen</button>
             <button type="button" ng-click="goTo()" class="btn btn-default">Registrieren</button>
         </form>
     </div>

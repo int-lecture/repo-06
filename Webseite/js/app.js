@@ -19,11 +19,16 @@ app.config(function ($routeProvider) {
             templateUrl : "views/newsletter.html"
         })
         .when("/login", {
-            templateUrl : "views/login.html"
+            templateUrl : "views/login.html",
+            Controller: 'LoginController'
         })
         .when("/registrieren", {
             templateUrl : "views/registrieren.html",
-            Controller :'LoginController'
+            Controller :'RegController'
+        })
+        .when("/messenger", {
+            templateUrl: "views/messenger",
+            Controller: 'MessengerController'
         })
         /*
         .when('/messenger/home', {
@@ -37,7 +42,7 @@ app.config(function ($routeProvider) {
             templateUrl: 'register/register.view.html'
         })
         */
-        .otherwise({ redirectTo: '/' });
+        .otherwise({ redirectTo: '/' })
 });
 
 
