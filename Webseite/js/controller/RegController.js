@@ -24,8 +24,8 @@ app.controller('RegController', function ($scope, $location, $http) {
             },
             data : dataObject
         }).then(function(){
-            window.alert("Success")}, function () {
-            window.alert("Error")
-        })
+            window.alert("User erfolgreich angelegt!");}, function () {
+            window.alert("Leider ist ein Fehler aufgetreten");
+        });
     };
 });
