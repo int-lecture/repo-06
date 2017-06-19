@@ -4,11 +4,15 @@
         <form>
             <div class="form-group">
                 <label>Email:</label>
-                <input type="email" class="form-control" ng-model="store.email" placeholder="Enter email">
+                <input type="email" class="form-control" ng-model="store.user" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <label>Pseudonym</label>
+                <input type="text" class="form-control" ng-model="store.pseudonym" placeholder="Enter password">
             </div>
             <div class="form-group">
                 <label>Password:</label>
-                <input type="password" class="form-control" ng-model="password" placeholder="Enter password">
+                <input type="password" class="form-control" ng-model="store.password" placeholder="Enter password">
             </div>
             <button type="submit" ng-click="login(store)" class="btn btn-default">Einloggen</button>
             <button type="button" ng-click="goTo()" class="btn btn-default">Registrieren</button>

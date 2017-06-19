@@ -8,7 +8,8 @@ app.controller('LoginController', function ($scope, $location, $http) {
     $scope.login = function (store) {
 
         var dataObject = {
-            user: store.email,
+            user: store.user,
+            pseudonym: store.pseudonym,
             password: store.password
         };
 
@@ -18,7 +19,7 @@ app.controller('LoginController', function ($scope, $location, $http) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            data : dataObject
+            data : JSON.stringify(dataObject)
         }).then(function(){
             window.alert("Success, dies dient nur zum Debuggen");
             $location.path('/messenger');
