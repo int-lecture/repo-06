@@ -72,7 +72,7 @@ class StorageProviderMongoDB {
 
 	public synchronized void deleteToken(String token) {
 		MongoCollection<Document> collection = database.getCollection("token");
-		collection.deleteOne(eq("token", token));
+		collection.deleteOne(eq("token", token)) ;
 	}
 
 }
