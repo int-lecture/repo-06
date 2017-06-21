@@ -59,7 +59,7 @@ public class Server {
 
 	public static void main(String[] args) throws IOException {
 
-		final String baseUri = "http://localhost:5000/";
+		final String baseUri = "http://0.0.0.0:5000/";
 		final String paket = "server";
 		final Map<String, String> initParams = new HashMap<String, String>();
 		initParams.put("com.sun.jersey.config.property.packages", paket);

@@ -31,7 +31,7 @@ class StorageProviderMongoDB {
 	private static MongoClient mongoClient = new MongoClient(connectionString);
 
 	/** Mongo database. */
-	private static MongoDatabase database = mongoClient.getDatabase("userbase");
+	private static MongoDatabase database = mongoClient.getDatabase("chat");
 
 	/**
 	 * @see var.chat.server.persistence.StorageProvider#retrieveMessages(java.lang.String,
@@ -39,7 +39,7 @@ class StorageProviderMongoDB {
 	 */
 	public synchronized UserID retrieveUser(String benutzername) {
 
-		MongoCollection<Document> collectionAccount = database.getCollection("account");
+		MongoCollection<Document> collectionAccount = database.getCollection("profiles");
 		// Information über User
 		Document document = collectionAccount.find(eq("user", benutzername)).first();
 		// keine Daten
