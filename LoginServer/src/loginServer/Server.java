@@ -53,8 +53,8 @@ public class Server {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response login(String jsonString) throws JSONException, ParseException {
 
-		String benutzerName;
-		String passwort;
+		String benutzerName, passwort;
+
 		// geprüft ob jsonString das richtige Format hat
 		// wenn es falsch formatiert ist, dann wird Bad-Requuest gesendet
 		try {
@@ -128,8 +128,7 @@ public class Server {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response auth(String jsonString) throws JSONException {
-		String token;
-		String pseudonym;
+		String token,pseudonym;
 		// es wird geprüft ob jsonString richtige format hat
 		try {
 			JSONObject jsonObject = new JSONObject(jsonString);

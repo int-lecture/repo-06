@@ -42,6 +42,8 @@ public class UserID {
 		this.sequenceNr = 0;
 	}
 
+
+
 	/**
 	 * Erhöht die Sequenznummer einer Nachricht und fügt diese einer
 	 * <code>messageList</code> hinzu.
@@ -95,6 +97,8 @@ public class UserID {
 		this.token = token;
 	}
 
+
+	//Authentifizierung
 	protected static final String uri = "http://141.19.142.60:5001";
 
 	public boolean auth() {

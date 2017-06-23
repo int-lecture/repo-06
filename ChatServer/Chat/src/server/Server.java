@@ -55,7 +55,7 @@ public class Server {
 		 * @throws JSONException
 		 */
 
-	StorageProviderMongoDB db = new StorageProviderMongoDB();
+	StorageProviderMongoDB StrPrMDB = new StorageProviderMongoDB();
 
 	public static void main(String[] args) throws IOException {
 
@@ -83,7 +83,7 @@ public class Server {
 			UserID user;
 			Message message = Message.transferJSONinMessage(jsonMessage);
 			if (message.to != null && message.from != null && message.date != null && message.text != null) {
-				user = db.retrieveUser(message.from);
+				user = StrPrMDB.retrieveUser(message.from);
 				if(user==null){
 					return Response.status(Response.Status.UNAUTHORIZED).build();
 				}
@@ -93,8 +93,8 @@ public class Server {
 					return Response.status(Response.Status.UNAUTHORIZED).build();
 				}
 
-				message.sequenceNr=db.getUpdatedSequence(message.to);
-				db.storeMessages(message);
+				message.sequenceNr=StrPrMDB.getUpdatedSequence(message.to);
+				StrPrMDB.storeMessages(message);
 
 				try {
 					return Response.ok().entity(message.transferInJSONObject().toString()).build();
@@ -129,14 +129,14 @@ public class Server {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response recieveMessage(@PathParam("user_id") String userID, @PathParam("sequence_number") int sequenceNr,@Context HttpHeaders header) throws ParseException {
 
-		UserID user = db.retrieveUser(userID);
+		UserID user = StrPrMDB.retrieveUser(userID);
 
 		if (user!=null) {
 			JSONArray jsonMessageArray = new JSONArray();
 
-			List<Message> newMessages = db.retrieveMessages(userID,sequenceNr,true);
+			List<Message> newMessages = StrPrMDB.retrieveMessages(userID,sequenceNr,true);
 			MultivaluedMap<String, String> hmap = header.getRequestHeaders();
-			String token = hmap.get("Authorization").get(0).substring(6);
+			String token = hmap.get("Authorization").get(0).substring(8);
 			System.out.println(token);
 			if (hmap.get("Authorization") == null || hmap.get("Authorization").isEmpty()) {
 				return Response.status(Status.UNAUTHORIZED).build();
