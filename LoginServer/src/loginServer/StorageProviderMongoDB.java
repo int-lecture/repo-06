@@ -14,7 +14,7 @@ import com.mongodb.client.MongoDatabase;
  */
 class StorageProviderMongoDB {
 
-	private static final String MONGO_URL = "mongodb://127.0.0.1:27017";
+	private static final String MONGO_URL = "mongodb://141.19.142.60:27017";
 	/** URI to the MongoDB instance. */
 	private static MongoClientURI connectionString = new MongoClientURI(MONGO_URL);
 
@@ -28,32 +28,32 @@ class StorageProviderMongoDB {
 	 * @see var.chat.server.persistence.StorageProvider#retrieveMessages(java.lang.String,
 	 *      long, boolean)
 	 */
-	public synchronized User retrieveUser(String benutzername) {
+	public synchronized User retrieveUser(String username) {
 
 		MongoCollection<Document> collectionAccount = database.getCollection("profiles");
 		// Information über User
-		Document document = collectionAccount.find(eq("user", benutzername)).first();
+		Document document = collectionAccount.find(eq("user", username)).first();
 		// keine Daten
 		if (document == null) {
 			return null;
 		}
-		User user = new User(benutzername, document.getString("gespeichertesPassword"), document.getString("pseudonym"), true);
+		User user = new User(username, document.getString("storedPassword"), document.getString("pseudonym"), true);
 		return user;
 	}
 
 	/**
 	 *
 	 */
-	public synchronized void saveToken(String token, String expirationDate, String pseudonym) {
+	public synchronized void saveToken(String token, String ablauf, String pseudonym) {
 
 		MongoCollection<Document> collectionToken = database.getCollection("token");
 
 		// user zur database hinzufügen
-		Document document = new Document("token", "" + token + "").append("expire-date", expirationDate)
+		Document document = new Document("token", "" + token + "").append("ablauf", ablauf)
 				.append("pseudonym", pseudonym);
 
 		if (collectionToken.find(eq("pseudonym", pseudonym)).first() != null) {
-			collectionToken.updateOne(eq("pseudonym", pseudonym), new Document("set", document));
+			collectionToken.updateOne(eq("pseudonym", pseudonym), new Document("$set", document));
 		} else {
 			collectionToken.insertOne(document);
 		}
@@ -67,12 +67,19 @@ class StorageProviderMongoDB {
 		if (document == null) {
 			return null;
 		}
-		return document.getString("expire-date");
+		return document.getString("ablauf");
 	}
 
 	public synchronized void deleteToken(String token) {
 		MongoCollection<Document> collection = database.getCollection("token");
 		collection.deleteOne(eq("token", token)) ;
 	}
+
+	/**
+     * @see var.chat.server.persistence.StorageProvider#clearForTest()
+     */
+	public void clearForTest() {
+
+	   }
 
 }

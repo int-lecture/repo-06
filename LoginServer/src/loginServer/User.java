@@ -83,7 +83,6 @@ public class User {
 	 * @return Returns true if the password was correct otherwise false.
 	 */
 	public boolean VerifyPassword(String password) {
-		System.out.println(password + " " + passwordHash);
 		return SecurityHelper.validatePassword(password, passwordHash);
 	}
 

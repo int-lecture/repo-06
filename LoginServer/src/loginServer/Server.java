@@ -12,7 +12,6 @@ import java.util.Map;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -27,13 +26,15 @@ import com.sun.jersey.api.container.grizzly.GrizzlyWebContainerFactory;
 @Path("")
 public class Server {
 
+
+
 	public static final String ISO8601 = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
 	private StorageProviderMongoDB strPrMDB = new StorageProviderMongoDB();
 
 	public static void main(String[] args) throws IOException {
 
-		final String baseUri = "http://0.0.0.0:5001/";
+		final String baseUri = "http://localhost:5001/";
 		final String paket = "loginServer";
 		final Map<String, String> initParams = new HashMap<String, String>();
 		initParams.put("com.sun.jersey.config.property.packages", paket);
@@ -47,30 +48,33 @@ public class Server {
 		System.exit(0);
 	}
 
+
+
 	@POST
 	@Path("/login")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response login(String jsonString) throws JSONException, ParseException {
 
-		String benutzerName, passwort;
+		String benutzer="";
+		String password="";
 
 		// geprüft ob jsonString das richtige Format hat
 		// wenn es falsch formatiert ist, dann wird Bad-Requuest gesendet
 		try {
 			JSONObject jsonObject = new JSONObject(jsonString);
-			benutzerName = jsonObject.getString("benutzer");
-			passwort = jsonObject.getString("passwort");
+			benutzer = jsonObject.getString("user");
+			password = jsonObject.getString("password");
 
 		} catch (JSONException e) {
 			return Response.status(Response.Status.BAD_REQUEST).header("Access-Control-Allow-Origin", "*").build();
 		}
 
 		// User wird von datenbank geholt
-		User user = strPrMDB.retrieveUser(benutzerName);
+		User user = strPrMDB.retrieveUser(benutzer);
 		// wenn es den User gibt und sein Pass mit dem erzeugtem Pass
 		// ubereinstimmt, dann wird den Token für den User erzeugt
-		if (user != null && user.VerifyPassword(passwort)) {
+		if (user != null && user.VerifyPassword(password)) {
 			JSONObject jsonObject = new JSONObject();
 			user.GenerateToken();
 			// zu den Token wird ein ablaufdatum bestimmt
