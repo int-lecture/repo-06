@@ -31,7 +31,7 @@ class StorageProviderMongoDB {
 	private static MongoClient mongoClient = new MongoClient(connectionString);
 
 	/** Mongo database. */
-	private static MongoDatabase database = mongoClient.getDatabase("userbase");
+	private static MongoDatabase database = mongoClient.getDatabase("chat");
 
 	/**
 	 * @see var.chat.server.persistence.StorageProvider#retrieveMessages(java.lang.String,
@@ -39,7 +39,7 @@ class StorageProviderMongoDB {
 	 */
 	public synchronized UserID retrieveUser(String benutzername) {
 
-		MongoCollection<Document> collectionAccount = database.getCollection("account");
+		MongoCollection<Document> collectionAccount = database.getCollection("profiles");
 		// Information über User
 		Document document = collectionAccount.find(eq("user", benutzername)).first();
 		// keine Daten
@@ -79,7 +79,7 @@ class StorageProviderMongoDB {
 		for (Document d : list) {
 			messageList.add(new Message(d.getString("token"), d.getString("from"), d.getString("to"),
 					d.getDate("date"), d.getString("text"),
-					d.getInteger("sequence")));
+					d.getInteger("sequenceNr")));
 		}
 		Collections.sort(messageList, new Comparator<Message>() {
 			@Override
@@ -90,18 +90,18 @@ class StorageProviderMongoDB {
 		return messageList;
 	}
 
-	public synchronized int getUpdatedSequence(String user_id){
+	public synchronized int getUpdatedSequence(String userId){
 		MongoCollection<Document> collectionSequence = database.getCollection("sequence");
-		Document doc=collectionSequence.find(eq("pseudonym",user_id)).first();
-		if(doc!=null){
-			doc.replace("sequence", doc.getInteger("sequence")+1);
-			collectionSequence.deleteOne(eq("pseudonym",user_id));
-			collectionSequence.insertOne(doc);
-			return doc.getInteger("sequence");
+		Document document=collectionSequence.find(eq("pseudonym",userId)).first();
+		if(document!=null){
+			document.replace("sequence", document.getInteger("sequence")+1);
+			collectionSequence.deleteOne(eq("pseudonym",userId));
+			collectionSequence.insertOne(document);
+			return document.getInteger("sequence");
 		}else{
-			Document doc1=new Document("sequence",0).append("pseudonym", user_id);
+			Document documentNew=new Document("sequence",0).append("pseudonym", userId);
 
-			collectionSequence.insertOne(doc1);
+			collectionSequence.insertOne(documentNew);
 			return 0;
 		}
 	}

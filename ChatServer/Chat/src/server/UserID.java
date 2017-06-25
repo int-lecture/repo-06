@@ -20,7 +20,7 @@ public class UserID {
 	/**
 	 * Sequenznummer
 	 */
-	int sequenceNr = 0;
+	int sequenceNr;;
 	Date date;
 
 	private String token;
@@ -29,7 +29,7 @@ public class UserID {
 	/**
 	 * <code>List</code> zum Speichern von Nachrichten
 	 */
-	 public List<Message> messageList = new ArrayList<Message>();
+	public List<Message> messageList = new ArrayList<Message>();
 
 	/**
 	 * Konstruktor der UserID
@@ -39,8 +39,10 @@ public class UserID {
 	 */
 	public UserID(String name) {
 		this.name = name;
-		this.sequenceNr=0;
+		this.sequenceNr = 0;
 	}
+
+
 
 	/**
 	 * Erhöht die Sequenznummer einer Nachricht und fügt diese einer
@@ -95,6 +97,8 @@ public class UserID {
 		this.token = token;
 	}
 
+
+	//Authentifizierung
 	protected static final String uri = "http://141.19.142.60:5001";
 
 	public boolean auth() {

@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -32,7 +33,7 @@ public class Server {
 
 	public static void main(String[] args) throws IOException {
 
-		final String baseUri = "http://localhost:5001/";
+		final String baseUri = "http://0.0.0.0:5001/";
 		final String paket = "loginServer";
 		final Map<String, String> initParams = new HashMap<String, String>();
 		initParams.put("com.sun.jersey.config.property.packages", paket);
@@ -52,24 +53,24 @@ public class Server {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response login(String jsonString) throws JSONException, ParseException {
 
-		String pseudonym;
-		String password;
+		String benutzerName, passwort;
+
 		// geprüft ob jsonString das richtige Format hat
 		// wenn es falsch formatiert ist, dann wird Bad-Requuest gesendet
 		try {
 			JSONObject jsonObject = new JSONObject(jsonString);
-			pseudonym = jsonObject.getString("user");
-			password = jsonObject.getString("password");
+			benutzerName = jsonObject.getString("benutzer");
+			passwort = jsonObject.getString("passwort");
 
 		} catch (JSONException e) {
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			return Response.status(Response.Status.BAD_REQUEST).header("Access-Control-Allow-Origin", "*").build();
 		}
 
 		// User wird von datenbank geholt
-		User user = strPrMDB.retrieveUser(pseudonym);
+		User user = strPrMDB.retrieveUser(benutzerName);
 		// wenn es den User gibt und sein Pass mit dem erzeugtem Pass
 		// ubereinstimmt, dann wird den Token für den User erzeugt
-		if (user != null && user.VerifyPassword(password)) {
+		if (user != null && user.VerifyPassword(passwort)) {
 			JSONObject jsonObject = new JSONObject();
 			user.GenerateToken();
 			// zu den Token wird ein ablaufdatum bestimmt
@@ -84,7 +85,8 @@ public class Server {
 				jsonObject.put("pseudonym", user.pseudonym);
 			} catch (JSONException e) {
 				// fehler von server
-				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).header("Access-Control-Allow-Origin", "*")
+						.build();
 
 			}
 
@@ -93,11 +95,32 @@ public class Server {
 
 			strPrMDB.saveToken(user.GetToken(), sdf.format(expireDate.getTime()), user.pseudonym);
 
-			return Response.status(Response.Status.OK).entity(jsonObject.toString()).build();
+			return Response.status(Response.Status.OK).entity(jsonObject.toString())
+					.header("Access-Control-Allow-Origin", "*").build();
 		} else {
 			// nicht authorisiert
-			return Response.status(Response.Status.UNAUTHORIZED).build();
+			return Response.status(Response.Status.UNAUTHORIZED).header("Access-Control-Allow-Origin", "*").build();
 		}
+	}
+
+	@OPTIONS
+	@Path("/login")
+	public Response optionsReg() {
+		return Response.ok("").header("Access-Control-Allow-Origin", "*")
+				.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+				.header("Access-Control-Allow-Credentials", "true")
+				.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
+				.header("Access-Control-Max-Age", "1209600").build();
+	}
+
+	@OPTIONS
+	@Path("/auth")
+	public Response optionsProfile() {
+		return Response.ok("").header("Access-Control-Allow-Origin", "*")
+				.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+				.header("Access-Control-Allow-Credentials", "true")
+				.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
+				.header("Access-Control-Max-Age", "1209600").build();
 	}
 
 	@POST
@@ -105,8 +128,7 @@ public class Server {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response auth(String jsonString) throws JSONException {
-		String token;
-		String pseudonym;
+		String token,pseudonym;
 		// es wird geprüft ob jsonString richtige format hat
 		try {
 			JSONObject jsonObject = new JSONObject(jsonString);
@@ -115,7 +137,7 @@ public class Server {
 
 		} catch (JSONException e) {
 			// wenn Format nicht passt, wird Fehler ausgegeben
-			return Response.status(Response.Status.BAD_REQUEST).build();
+			return Response.status(Response.Status.BAD_REQUEST).header("Access-Control-Allow-Origin", "*").build();
 
 		}
 		// expire date wird aus datenbank geholt
@@ -128,7 +150,7 @@ public class Server {
 				date = sdf.parse(expireDate);
 			} catch (ParseException ex1) {
 				System.out.println("Falsche Datum");
-				return Response.status(Response.Status.BAD_REQUEST).build();
+				return Response.status(Response.Status.BAD_REQUEST).header("Access-Control-Allow-Origin", "*").build();
 			}
 			Calendar calendar = Calendar.getInstance();
 			// geprüfft ob Token abgelaufen ist
@@ -138,22 +160,23 @@ public class Server {
 					sdf = new SimpleDateFormat(Server.ISO8601);
 					jsonObject.put("success", "true");
 					jsonObject.put("expire-date", expireDate);
-					return Response.status(Response.Status.OK).entity(jsonObject.toString()).build();
+					return Response.status(Response.Status.OK).entity(jsonObject.toString())
+							.header("Access-Control-Allow-Origin", "*").build();
 
 				} catch (JSONException e) {
-					//nicht autorisiert
-					return Response.status(Response.Status.UNAUTHORIZED).build();
+					// nicht autorisiert
+					return Response.status(Response.Status.UNAUTHORIZED).header("Access-Control-Allow-Origin", "*")
+							.build();
 				}
 			} else {
-				//token wird gelöscht
+				// token wird gelöscht
 				strPrMDB.deleteToken(token);
 			}
 
 		}
 
-		return Response.status(Response.Status.UNAUTHORIZED).build();
+		return Response.status(Response.Status.UNAUTHORIZED).header("Access-Control-Allow-Origin", "*").build();
 
 	}
-
 
 }
