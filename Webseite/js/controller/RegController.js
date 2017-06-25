@@ -10,7 +10,7 @@ app.controller('RegController', function ($scope, $location, $http) {
 
     $scope.reg = function (store) {
 
-        var registrationIP = store.loginIp;
+        $scope.myData.url = store.loginIp;
 
         var dataObject = {
                 user: store.email,
@@ -20,7 +20,7 @@ app.controller('RegController', function ($scope, $location, $http) {
 
         $http({
             method: 'jsonp',
-            url: 'http://'+registrationIP+'/register',
+            url: 'http://'+$scope.myData.url+':5002/register',
             headers: {
                 'Content-Type': 'application/json; charset=utf-8'
             },

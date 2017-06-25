@@ -8,7 +8,7 @@ app.controller('LoginController', function ($scope, $location, $http) {
     };
     $scope.login = function (store) {
 
-        var url = store.loginIp;
+        $scope.myData.url = store.loginIp;
 
         var dataObject = {
             user: store.user,
@@ -18,7 +18,7 @@ app.controller('LoginController', function ($scope, $location, $http) {
 
         $http({
             method: 'post',
-            url: 'http://'+url+'/login',
+            url: 'http://'+$scope.myData.url+':5001/login',
             headers: {
                 'Content-Type': 'application/json'
             },

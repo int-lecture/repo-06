@@ -51,7 +51,9 @@ app.run( function ($rootScope) {
         pseudonym: '',
         token: '',
         expires: '',
-        serverdate: ''
+        serverdate: '',
+        url: '',
+        contact : ["Jimmy", "Timmi"]
     }
 });
 

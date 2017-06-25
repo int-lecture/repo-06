@@ -3,23 +3,76 @@
  */
 app.controller('MsgController', function ($http, $scope){
 
+    authentification();
+    getContact();
+
     var sequenceNr;
 
+    $scope.messages =[{
+        text: "Hallo wie gehts dir"
+    },{
+        text: "test testtest"
+    }];
+
+    function authentification() {
+
+        var dataObject = {
+            token: $scope.myData.token,
+            pseudonym : $scope.myData.pseudonym
+        }
+
+        $http({
+            method: 'post',
+            url: 'http://'+$scope.myData.url+':5001/auth',
+            headers : {
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify(dataObject)
+        }).then(function (response) {
+
+        }, function (response) {
+            window.alert("Nicht geklappt");
+        })
+    };
+
+
+    function getContact () {
+        var dataObject = {
+            'token': $scope.myData.token,
+            'getownprofile': $scope.myData.pseudonym
+        }
+
+
+        $http({
+            method: 'post',
+            url: 'http://'+$scope.myData.url+':5000/profil',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify(dataObject)
+        }).then(function (response) {
+            $scope.myData.contact = response.data.contact;
+        }, function (response) {
+            window.alert("Leider ist ein Fehler bei den Profilen passiert =(")
+        })
+    }
 
 
     $scope.recieveMsg = function () {
-        var url = store.msgServer;
+        
 
         $http({
             method: 'get',
-            url: 'http://'+url+'/messages/'+$scope.myData.pseudonym,
+            url: 'http://'+$scope.myData.url+':5000/messages/'+$scope.myData.pseudonym+'',
             headers : {
                 'Authorization': $scope.myData.token,
                 'Content-Type': 'application/json'
             }
+        }).then(function (response) {
+            $scope.messages = response.data.text;
         })
 
-    }
+    };
 
     $scope.sendToServer = function (store) {
         var dataObject = {

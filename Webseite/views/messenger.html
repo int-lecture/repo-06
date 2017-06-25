@@ -3,25 +3,26 @@
         <h3>Auf gehts!</h3>
     </div>
     <div>
-        <p></p>
+        <div class="col-lg-3" class="well">
+            <h3>Kontakte:</h3>
+            <p ng-repeat="x in myData.contact">{{x}}</p>
+        </div>
+        <div class="col-lg-9" class="well">
+            <h3>Deine Nachrichten:</h3>
+            <p ng-repeat="x in messages">{{x.text}}</p>
+        </div>
     </div>
-    <form>
-        <div>
-            <input type="text" class="form-controller" ng-model="store.text" placeholder="Ihre Nachricht">
-            <button type="submit" ng-click="sendToServer(store)" class="btn btn-default">Senden</button>
-            <button type="button" ng-click="recieveMsg()" class="btn btn-default">Refresh</button>
-        </div>
-        <div>
-            <input type="text" class="form-controller" ng-model="store.to" placeholder="An ?">
-        </div>
-    </form>
+    <br>
+    <div>
+        <form>
+                <input type="text" class="form-controller" ng-model="store.text" placeholder="Ihre Nachricht">
+                <button type="submit" ng-click="sendToServer(store)" class="btn btn-default">Senden</button>
+                <button type="button" ng-click="recieveMsg()" class="btn btn-default">Refresh</button><br>
+                <input type="text" class="form-controller" ng-model="store.to" placeholder="An ?">
+
+        </form>
+    </div>
+
 </div>
-<!-- ToDo-->
-<!--
-    1.Login Oberfläche
-    2.Chat Oberfläche
-    3.Controller für Login/Chat
-    4.$http in controller einbinden
--->
 
 
