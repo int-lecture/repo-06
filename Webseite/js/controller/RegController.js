@@ -3,12 +3,14 @@
  */
 app.controller('RegController', function ($scope, $location, $http) {
 
-    $scope.test = true;
+
     $scope.goTo = function () {
         $location.path('/login')
     };
 
     $scope.reg = function (store) {
+
+        var registrationIP = store.loginIp;
 
         var dataObject = {
                 user: store.email,
@@ -17,14 +19,14 @@ app.controller('RegController', function ($scope, $location, $http) {
         };
 
         $http({
-            method: 'put',
-            url: 'http://141.19.142.60:5002/register',
+            method: 'jsonp',
+            url: 'http://'+registrationIP+'/register',
             headers: {
                 'Content-Type': 'application/json; charset=utf-8'
             },
             data : JSON.stringify(dataObject)
         }).then(function(){
-            window.alert("User erfolgreich angelegt!");}, function () {
+            window.alert("User erfolgreich angelegt!")}, function () {
             window.alert("Leider ist ein Fehler aufgetreten");
         });
     };

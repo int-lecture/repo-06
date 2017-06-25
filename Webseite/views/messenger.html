@@ -3,8 +3,18 @@
         <h3>Auf gehts!</h3>
     </div>
     <div>
-        <p>{{$rootScope.rspdata}}</p>
+        <p></p>
     </div>
+    <form>
+        <div>
+            <input type="text" class="form-controller" ng-model="store.text" placeholder="Ihre Nachricht">
+            <button type="submit" ng-click="sendToServer(store)" class="btn btn-default">Senden</button>
+            <button type="button" ng-click="recieveMsg()" class="btn btn-default">Refresh</button>
+        </div>
+        <div>
+            <input type="text" class="form-controller" ng-model="store.to" placeholder="An ?">
+        </div>
+    </form>
 </div>
 <!-- ToDo-->
 <!--
