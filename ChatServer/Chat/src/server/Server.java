@@ -1,6 +1,5 @@
 package server;
 
-
 import java.util.HashMap;
 
 import java.util.List;
@@ -16,64 +15,35 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import com.sun.grizzly.http.SelectorThread;
-import com.sun.jersey.api.container.grizzly.GrizzlyWebContainerFactory;
-
+@Path("/")
 public class Server {
+
 	// Endlosschleife bei jeder Nachricht
-		/**
-		 * Datumsformatierung
-		 */
-		public static final String ISO8601 = "yyyy-MM-dd'T'HH:mm:ssZ";
+	/**
+	 * Datumsformatierung
+	 */
+	public static final String ISO8601 = "yyyy-MM-dd'T'HH:mm:ssZ";
 
-		/**
-		 * HashMap zur Speicherung der Usermessages
-		 */
-		//private static Map<String, UserID> userMessages = new HashMap<>();
+	/**
+	 * HashMap zur Speicherung der Usermessages
+	 */
+	private static Map<String, UserID> userMessages = new HashMap<>();
 
-		/**
-		 * Empfängt Nachrichten
-		 *
-		 * @param jsonMessage
-		 *            Übergebene Nachricht als String
-		 * @return Response ob alles oder garnichts geklappt hat
-		 * @throws JSONException
-		 */
-
-	StorageProviderMongoDB StrPrMDB = new StorageProviderMongoDB();
-
-	public static void main(String[] args) throws IOException {
-
-		final String baseUri = "http://0.0.0.0:5000/";
-		final String paket = "server";
-		final Map<String, String> initParams = new HashMap<String, String>();
-		initParams.put("com.sun.jersey.config.property.packages", paket);
-		System.out.println("Starte grizzly...");
-		SelectorThread threadSelector = GrizzlyWebContainerFactory.create(
-		baseUri, initParams);
-		System.out.printf("Grizzly läuft unter %s%n", baseUri);
-		System.out.println("[ENTER] drücken, um Grizzly zu beenden");
-		System.in.read();
-		threadSelector.stopEndpoint();
-		System.out.println("Grizzly wurde beendet");
-		System.exit(0);
-	}
-
+	/**
+	 * Empfängt Nachrichten
+	 *
+	 * @param jsonMessage
+	 *            Übergebene Nachricht als String
+	 * @return Response ob alles oder garnichts geklappt hat
+	 * @throws JSONException
+	 */
 	@Path("/send")
 	@PUT
 	@Produces(MediaType.APPLICATION_JSON)
@@ -83,18 +53,14 @@ public class Server {
 			UserID user;
 			Message message = Message.transferJSONinMessage(jsonMessage);
 			if (message.to != null && message.from != null && message.date != null && message.text != null) {
-				user = StrPrMDB.retrieveUser(message.from);
-				if(user==null){
-					return Response.status(Response.Status.UNAUTHORIZED).build();
+				if (!userMessages.containsKey(message.to)) {
+					user = new UserID(message.to);
+					userMessages.put(message.to, user);
+					user.sendMessage(message);
+				} else {
+					user = userMessages.get(message.to);
+					user.sendMessage(message);
 				}
-				user.setToken(message.token);
-
-				if(!user.auth()){
-					return Response.status(Response.Status.UNAUTHORIZED).build();
-				}
-
-				message.sequenceNr=StrPrMDB.getUpdatedSequence(message.to);
-				StrPrMDB.storeMessages(message);
 
 				try {
 					return Response.ok().entity(message.transferInJSONObject().toString()).build();
@@ -122,25 +88,15 @@ public class Server {
 	 * @param sequenceNr
 	 *            Sequenznummer
 	 * @return Response falls alles oder garnichts geklappt hat
-	 * @throws ParseException
 	 */
 	@GET
 	@Path("/messages/{user_id}/{sequence_number}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response recieveMessage(@PathParam("user_id") String userID, @PathParam("sequence_number") int sequenceNr,@Context HttpHeaders header) throws ParseException {
-
-		UserID user = StrPrMDB.retrieveUser(userID);
-
-		if (user!=null) {
+	public Response recieveMessage(@PathParam("user_id") String userID, @PathParam("sequence_number") int sequenceNr) {
+		if (userMessages.containsKey(userID)) {
 			JSONArray jsonMessageArray = new JSONArray();
-
-			List<Message> newMessages = StrPrMDB.retrieveMessages(userID,sequenceNr,true);
-			MultivaluedMap<String, String> hmap = header.getRequestHeaders();
-			String token = hmap.get("Authorization").get(0).substring(8);
-			System.out.println(token);
-			if (hmap.get("Authorization") == null || hmap.get("Authorization").isEmpty()) {
-				return Response.status(Status.UNAUTHORIZED).build();
-			}
+			UserID user = userMessages.get(userID);
+			List<Message> newMessages = user.revieveMessage(sequenceNr);
 			if (newMessages.isEmpty()) {
 				return Response.noContent().entity("No Messages").build();
 			} else {
@@ -172,13 +128,12 @@ public class Server {
 	 * @param userID
 	 *            Übergebener User Name
 	 * @return Response wenn bzw. wenn kein Fehler aufgetretten ist.
-	 * @throws ParseException
 	 */
 	@GET
 	@Path("/messages/{user_id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response revieveAllMessages(@PathParam("user_id") String userID,@Context HttpHeaders header) throws ParseException {
-		return recieveMessage(userID, 0,header);
+	public Response revieveAllMessages(@PathParam("user_id") String userID) {
+		return recieveMessage(userID, 0);
 	}
 
 }
