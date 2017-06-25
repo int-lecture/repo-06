@@ -43,6 +43,17 @@ app.config(function ($routeProvider) {
         })
         */
         .otherwise({ redirectTo: '/' })
+
 });
+
+app.run( function ($rootScope) {
+    $rootScope.myData = {
+        pseudonym: '',
+        token: '',
+        expires: '',
+        serverdate: ''
+    }
+});
+
 
 

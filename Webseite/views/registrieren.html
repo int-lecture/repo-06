@@ -16,6 +16,11 @@
                 <label>Password:</label>
                 <input type="password" class="form-control" ng-model="store.password" placeholder="Enter password" >
             </div>
+            <div>
+                <label>IP-Adresse des Servers</label>
+                <input type="text" class="form-control" ng-model="store.loginIp" placeholder="IP-Adresse">
+            </div>
+            <br>
             <button type="submit" ng-click="reg(store)" class="btn btn-default">Registrieren</button>
             <button type="button" ng-click="goTo()" class="btn btn-default">Abbrechen</button>
         </form>
