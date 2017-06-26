@@ -45,7 +45,7 @@ app.controller('MsgController', function ($http, $scope){
 
         $http({
             method: 'post',
-            url: 'http://'+$scope.myData.url+':5000/profil',
+            url: 'http://'+$scope.myData.url+':5002/profil',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -85,7 +85,7 @@ app.controller('MsgController', function ($http, $scope){
 
         $http({
             method: 'put',
-            url: 'http://142.19.141.60/send',
+            url: 'http://'+ $scope.myData.url+'/:5000/send',
             headers: {
                 'Content-Type': 'application/json'
             },

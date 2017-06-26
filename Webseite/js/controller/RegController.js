@@ -19,10 +19,10 @@ app.controller('RegController', function ($scope, $location, $http) {
         };
 
         $http({
-            method: 'jsonp',
+            method: 'put',
             url: 'http://'+$scope.myData.url+':5002/register',
             headers: {
-                'Content-Type': 'application/json; charset=utf-8'
+                'Content-Type': 'application/json'
             },
             data : JSON.stringify(dataObject)
         }).then(function(){
